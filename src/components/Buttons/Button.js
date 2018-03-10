@@ -72,33 +72,99 @@ const getSnacksStyles = props => {
   const { action, actionHover, primaryBackground } = props.snacksTheme.colors
   const actionActive = darken(actionHover, 3)
 
+  const states = {
+    primaryBase() {
+      const activeAndFocus = { backgroundColor: actionActive }
+
+      return {
+        ':hover': {
+          backgroundColor: actionHover
+        },
+        ':active': activeAndFocus,
+        ':focus': activeAndFocus
+      }
+    },
+
+    primaryInverted() {
+      const activeAndFocus = {
+        backgroundColor: primaryBackground,
+        opacity: '0.9'
+      }
+
+      return {
+        ':hover': {
+          backgroundColor: primaryBackground,
+          opacity: '0.9'
+        },
+        ':active': activeAndFocus,
+        ':focus': activeAndFocus
+      }
+    },
+
+    secondaryBase() {
+      const activeAndFocus = {
+        color: actionActive,
+        border: `1px solid ${actionActive}`
+      }
+
+      return {
+        ':hover': {
+          color: actionHover,
+          border: `1px solid ${actionHover}`
+        },
+        ':active': activeAndFocus,
+        ':focus': activeAndFocus
+      }
+    },
+
+    secondaryInverted() {
+      const activeAndFocus = {
+        color: primaryBackground,
+        border: `1px solid ${primaryBackground}`,
+        opacity: '0.8'
+      }
+
+      return {
+        ':hover': {
+          color: primaryBackground,
+          border: `1px solid ${primaryBackground}`,
+          opacity: '0.9'
+        },
+        ':active': activeAndFocus,
+        ':focus': activeAndFocus
+      }
+    },
+
+    coupon() {
+      const activeAndFocus = {
+        border: `1px dashed ${colors.RED_700}`,
+        color: colors.RED_700
+      }
+
+      return {
+        ':hover': {
+          border: `1px dashed ${colors.RED_600}`,
+          color: colors.RED_600
+        },
+        ':active': activeAndFocus,
+        ':focus': activeAndFocus
+      }
+    }
+  }
+
   return {
     primary: {
       base: {
         backgroundColor: action,
         color: primaryBackground,
-
-        ':hover': {
-          backgroundColor: actionHover
-        },
-        ':active': {
-          backgroundColor: actionActive
-        }
+        ...states.primaryBase()
       },
 
       inverted: {
         backgroundColor: primaryBackground,
         border: `1px solid ${action}`,
         color: action,
-
-        ':hover': {
-          backgroundColor: primaryBackground,
-          opacity: '0.9'
-        },
-        ':active': {
-          backgroundColor: primaryBackground,
-          opacity: '0.8'
-        }
+        ...states.primaryInverted()
       }
     },
 
@@ -107,31 +173,13 @@ const getSnacksStyles = props => {
         backgroundColor: 'transparent',
         color: action,
         border: `1px solid ${action}`,
-
-        ':hover': {
-          color: actionHover,
-          border: `1px solid ${actionHover}`
-        },
-        ':active': {
-          color: actionActive,
-          border: `1px solid ${actionActive}`
-        }
+        ...states.secondaryBase()
       },
 
       inverted: {
         color: primaryBackground,
         border: `1px solid ${primaryBackground}`,
-
-        ':hover': {
-          color: primaryBackground,
-          border: `1px solid ${primaryBackground}`,
-          opacity: '0.9'
-        },
-        ':active': {
-          color: primaryBackground,
-          border: `1px solid ${primaryBackground}`,
-          opacity: '0.8'
-        }
+        ...states.secondaryInverted()
       }
     },
 
@@ -140,15 +188,7 @@ const getSnacksStyles = props => {
         backgroundColor: colors.WHITE,
         color: colors.RED_500,
         border: `1px dashed ${colors.GRAY_88}`,
-
-        ':hover': {
-          border: `1px dashed ${colors.RED_600}`,
-          color: colors.RED_600
-        },
-        ':active': {
-          border: `1px dashed ${colors.RED_700}`,
-          color: colors.RED_700
-        }
+        ...states.coupon()
       }
     },
 
@@ -156,7 +196,10 @@ const getSnacksStyles = props => {
       base: {
         backgroundColor: colors.GRAY_74,
         color: colors.WHITE,
-        cursor: 'not-allowed'
+        cursor: 'not-allowed',
+        ':focus': {
+          outline: 'solid'
+        }
       }
     }
   }
